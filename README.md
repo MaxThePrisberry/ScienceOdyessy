@@ -1,2 +1,2 @@
 # ScienceOdyessy
-Our caesar cipher for the science odyessy.
+Our code for the science odyessy.
