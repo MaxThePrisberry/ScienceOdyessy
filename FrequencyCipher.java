@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class FrequencyAnalysis {
 	public static String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	public static String frequency = "etaoinsrhldcumfpgwybvkxjqz";
+	public static String ignoreCharacters = " .,";
 	public static void main(String[] args){
 		Scanner scan = new Scanner(System.in);
 		boolean going = true;
@@ -60,6 +61,7 @@ public class FrequencyAnalysis {
 		for (int x = 0; x < 26; x++){
 			int index = findIndex(intFrequency);
 			frequency[x] = intFrequency.get(index).getLetter();
+			intFrequency.remove(index);
 		}
 		System.out.println(Arrays.toString(frequency));
 		return frequency;
