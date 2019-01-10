@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class FrequencyAnalysis {
 	public static String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	public static String frequency = "etaoinsrhldcumfpgwybvkxjqz";
-	public static String ignoreCharacters = " .,";
+	public static String ignoreCharacters = " .,-!?";
 	public static void main(String[] args){
 		Scanner scan = new Scanner(System.in);
 		boolean going = true;
@@ -25,7 +25,7 @@ public class FrequencyAnalysis {
 		System.out.println("Enter the string you would like to decode:");
 		String result = scan.nextLine();
 		result = result.toLowerCase();
-		result = eliminateSpaces(result);
+		//result = eliminateSpaces(result);
 		char[] paired = findFrequency(result);
 		result = replace(result, paired);
 		System.out.println("Your decoded string roughly translates to:\n\n" + result);
@@ -56,7 +56,15 @@ public class FrequencyAnalysis {
 			intFrequency.add(new LetterFrequency(alphabet.charAt(x), 0));
 		}
 		for (int x = 0; x < message.length(); x++){
-			intFrequency.get(message.charAt(x)-97).add();
+			boolean isValid = true;
+			for (int y = 0; y < ignoreCharacters.length(); y++){
+				if (message.charAt(x) == ignoreCharacters.charAt(y)){
+					isValid = false;
+				}
+			}
+			if (isValid){
+				intFrequency.get(message.charAt(x)-97).add();
+			}
 		}
 		for (int x = 0; x < 26; x++){
 			int index = findIndex(intFrequency);
