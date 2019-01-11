@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 
 public class BruteForceCipher {
+	public static String ignoreCharacters = " .!?-_*@#$%^&()/\\|~`'\"<>+=";
 	public static void main(String [] args) throws FileNotFoundException{
 		Scanner scan = new Scanner(System.in);   
 		System.out.print("Enter an encrypted word to be decoded: ");
@@ -13,13 +14,19 @@ public class BruteForceCipher {
 	}
 	public static void BruteForce(String str) throws FileNotFoundException{
 		ArrayList<String> results = new ArrayList<>(); 
+		str = str.toLowerCase();
 		for(int i = 1; i <= 26; i++){
 			String message = "";
 			for(int j = 0; j < str.length(); j++){
-				if (str.charAt(j) != 32){
+				boolean escapeChar = false;
+				for (int x = 0; x < ignoreCharacters.length(); x++){
+					if (str.charAt(j) == ignoreCharacters.charAt(x)){
+						escapeChar = true;
+						message += ignoreCharacters.charAt(x);
+					}
+				}
+				if (!escapeChar){
 					message += (char)(97 + ((26 + (str.charAt(j) - 97 - i)) % 26));
-				}else{
-					message += " ";
 				}
 			}
 			results.add(message); 
@@ -40,6 +47,8 @@ public class BruteForceCipher {
 		System.out.print(words.toString());
 		int real = 0;
 		for (int x = 0; x < words.size(); x++){
+			//char letter = words.get(x).charAt(0);
+			//Scanner file = new Scanner(new File("C:/Files/dictionary" + letter + ".txt"));
 			Scanner file = new Scanner(new File("C:/Files/dictionary.txt"));
 			boolean isReal = false;
 			while (file.hasNext()){
@@ -65,7 +74,13 @@ public class BruteForceCipher {
 				addup.add(segment);
 				segment = "";
 			} else {
-				segment += message.charAt(x);
+				boolean wordPart = true;
+				for (int y = 0; y < ignoreCharacters.length(); y++){
+					if (message.charAt(x) == ignoreCharacters.charAt(y)){
+						wordPart = false;
+					}
+				}
+				if (wordPart) {segment += message.charAt(x);}
 			}
 		}
 		addup.add(segment);
